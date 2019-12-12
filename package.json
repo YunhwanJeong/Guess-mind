@@ -1,0 +1,29 @@
+{
+  "name": "guess-mind",
+  "version": "1.0.0",
+  "description": "Realtime Drawing Game built with Socket.IO, Gulp and Node.js",
+  "main": "index.js",
+  "scripts": {
+    "dev:server": "nodemon --exec babel-node --delay 2 src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aidenchung5312/Guess-mind.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aidenchung5312/Guess-mind/issues"
+  },
+  "homepage": "https://github.com/aidenchung5312/Guess-mind#readme",
+  "devDependencies": {
+    "@babel/core": "^7.7.5",
+    "@babel/node": "^7.7.4",
+    "@babel/preset-env": "^7.7.6",
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}
