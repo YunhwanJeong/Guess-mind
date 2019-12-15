@@ -21,6 +21,14 @@ const server = app.listen(PORT, handleListening);
 
 const io = socketIO.listen(server);
 
-io.on("connection", () => {
-  console.log("somebody conneted");
+io.on("connection", socket => {
+  socket.on("sendMessage", ({ message }) => {
+    socket.broadcast.emit("spreadMessage", {
+      message,
+      nickname: socket.nickname || "Anonymous"
+    });
+  });
+  socket.on("setNickname", ({ nickname }) => {
+    socket.nickname = nickname;
+  });
 });
