@@ -7,6 +7,10 @@ html(lang="en")
     link(rel="stylesheet", href="/styles/styles.css")
     title Guess Mind
   body
-    h1 hello!
+    .loginBox#jsLoginBox
+      form
+        input(type="text" placeholder="What name do you go by?")
+    .gameContainer#jsGameContainer
+      |Let's play game!
     script(src="/socket.io/socket.io.js")
     script(src="/scripts/main.js")
