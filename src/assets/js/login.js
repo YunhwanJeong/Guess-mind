@@ -9,8 +9,9 @@ const NICKNAME = "nickname";
 const nickname = localStorage.getItem(NICKNAME);
 
 const login = nickname => {
-  const socket = io("/");
-  socket.emit("loggedIn", { nickname });
+  // eslint-disable-next-line no-undef
+  window.socket = io("/");
+  window.socket.emit(window.events.setNickname, { nickname });
 };
 
 const handleSubmitNickname = event => {
