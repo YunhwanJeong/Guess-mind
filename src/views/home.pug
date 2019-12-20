@@ -11,8 +11,10 @@ html(lang="en")
       form
         input(type="text" placeholder="What name do you go by?")
     .gameContainer#jsGameContainer
-      |Let's play game!
-      div#jsNotification
+      .chat
+        ul.chat__messages#jsMessages
+        form.chat__form#jsMsgForm
+          input(type="text")
     script window.events = !{events}
     script(src="/socket.io/socket.io.js")
     script(src="/scripts/main.js")

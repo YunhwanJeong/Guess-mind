@@ -1,4 +1,4 @@
-import { initSockets } from "./sockets";
+import { initSockets } from "./socket";
 
 const body = document.querySelector("body");
 const loginBox = document.getElementById("jsLoginBox");
