@@ -11,10 +11,28 @@ html(lang="en")
       form
         input(type="text" placeholder="What name do you go by?")
     .gameContainer#jsGameContainer
+      .main
+        canvas.canvas#jsCanvas(width="700px" height="700px")
+        .controls#jsControls
+          .controls__range
+            input#jsRange(type="range" name="range" min="0.1" max="5" step="0.05" value="2.5")
+          .controls__btns
+            button#jsMode Fill
+            button#jsSave Save
+          .controls__colors
+            div(class="controls__color jsColor" style="background-color: #2d3436")
+            div(class="controls__color jsColor" style="background-color: #dfe6e9")
+            div(class="controls__color jsColor" style="background-color: #d63031")
+            div(class="controls__color jsColor" style="background-color: #e17055")
+            div(class="controls__color jsColor" style="background-color: #fdcb6e")
+            div(class="controls__color jsColor" style="background-color: #55efc4")
+            div(class="controls__color jsColor" style="background-color: #74b9ff")
+            div(class="controls__color jsColor" style="background-color: #0984e3")
+            div(class="controls__color jsColor" style="background-color: #6c5ce7")
       .chat
         ul.chat__messages#jsMessages
         form.chat__form#jsMsgForm
-          input(type="text")
+          input(type="text" placeholder="Write a message")
     script window.events = !{events}
     script(src="/socket.io/socket.io.js")
     script(src="/scripts/main.js")

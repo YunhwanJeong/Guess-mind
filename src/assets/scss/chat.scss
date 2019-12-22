@@ -1,8 +1,11 @@
 .chat {
+  margin-left: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
   .chat__messages {
-    width: 50%;
-    width: 100%;
-    padding: 20px 10px;
+    width: 300px;
+    padding: 20px 20px;
     overflow: scroll;
     background-color: white;
     height: 50vh;
@@ -23,16 +26,20 @@
   }
   .chat__form {
     display: flex;
+    min-width: 300px;
     flex-direction: column;
     align-items: center;
     position: relative;
-    top: -50px;
+    top: -30px;
     input {
       height: 50px;
       width: 120%;
       padding: 0px 25px;
       box-shadow: 0 6px 12px -2px rgba(50, 50, 93, 0.25),
         0 3px 7px -3px rgba(0, 0, 0, 0.3);
+      &::placeholder {
+        opacity: 0.5;
+      }
     }
   }
 }
