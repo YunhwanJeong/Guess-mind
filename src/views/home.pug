@@ -12,6 +12,7 @@ html(lang="en")
         input(type="text" placeholder="What name do you go by?")
     .gameContainer#jsGameContainer
       .main
+        #jsGameContext
         canvas.canvas#jsCanvas(width="700px" height="700px")
         .controls#jsControls
           .controls__range
@@ -30,6 +31,7 @@ html(lang="en")
             div(class="controls__color jsColor" style="background-color: #0984e3")
             div(class="controls__color jsColor" style="background-color: #6c5ce7")
       .chat
+        .chat__scoreBoard#jsScoreBoard
         ul.chat__messages#jsMessages
         form.chat__form#jsMsgForm
           input(type="text" placeholder="Write a message")

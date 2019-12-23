@@ -89,6 +89,8 @@ const fill = (color = null) => {
   ctx.fillStyle = currentColor;
 };
 
+export const resetCanvas = () => fill("white");
+
 const handleFilling = () => {
   if (isFilling) {
     fill();
@@ -109,11 +111,6 @@ const handleSave = () => {
 };
 
 const canvasInit = () => {
-  canvas.addEventListener("mousemove", onMouseMove);
-  canvas.addEventListener("mousedown", startPainting);
-  canvas.addEventListener("mouseup", stopPainting);
-  canvas.addEventListener("mouseleave", stopPainting);
-  canvas.addEventListener("click", handleFilling);
   canvas.addEventListener("contextmenu", handleContextMenu);
 };
 
@@ -124,8 +121,35 @@ const controlsInit = () => {
     color.addEventListener("click", handleClickedColor)
   );
   save.addEventListener("click", handleSave);
+  hideControls();
 };
 
+export const handleBeganPath = ({ x, y }) => beginPath(x, y);
+export const handleStrokedPath = ({ x, y, color }) => strokePath(x, y, color);
+export const handleFilled = ({ color }) => fill(color);
+
+export const disableCanvas = () => {
+  canvas.removeEventListener("mousemove", onMouseMove);
+  canvas.removeEventListener("mousedown", startPainting);
+  canvas.removeEventListener("mouseup", stopPainting);
+  canvas.removeEventListener("mouseleave", stopPainting);
+  canvas.removeEventListener("click", handleFilling);
+};
+
+export const enableCanvas = () => {
+  canvas.addEventListener("mousemove", onMouseMove);
+  canvas.addEventListener("mousedown", startPainting);
+  canvas.addEventListener("mouseup", stopPainting);
+  canvas.addEventListener("mouseleave", stopPainting);
+  canvas.addEventListener("click", handleFilling);
+};
+
+export const hideControls = () => {
+  controls.style.opacity = 0;
+};
+export const showControls = () => {
+  controls.style.opacity = 1;
+};
 if (canvas) {
   canvasInit();
 }
@@ -133,7 +157,3 @@ if (canvas) {
 if (controls) {
   controlsInit();
 }
-
-export const handleBeganPath = ({ x, y }) => beginPath(x, y);
-export const handleStrokedPath = ({ x, y, color }) => strokePath(x, y, color);
-export const handleFilled = ({ color }) => fill(color);
