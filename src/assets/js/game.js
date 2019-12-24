@@ -5,6 +5,7 @@ import {
   showControls,
   resetCanvas
 } from "./paint";
+import { disableMsg, enableMsg } from "./chat";
 
 const scoreBoard = document.getElementById("jsScoreBoard");
 const gameContext = document.getElementById("jsGameContext");
@@ -29,16 +30,19 @@ const updateText = (text = null) => {
   }
 };
 
-export const handleGameStarted = () => {
-  updateText();
-  disableCanvas();
-  hideControls();
+export const handleGameStart = () => {
+  updateText("Game will start soon");
 };
 
-export const handleLeaderChosen = ({ word }) => {
+export const handleGameStarted = () => {
+  updateText();
+};
+
+export const handlePainterChosen = ({ word }) => {
   enableCanvas();
   showControls();
   gameContext.innerText = `You are the painter. The word is: ${word}`;
+  disableMsg();
 };
 
 export const handleGameEnded = () => {
@@ -46,4 +50,5 @@ export const handleGameEnded = () => {
   disableCanvas();
   hideControls();
   resetCanvas();
+  enableMsg();
 };

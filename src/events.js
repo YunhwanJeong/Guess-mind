@@ -12,8 +12,9 @@ const events = {
   fill: "fill",
   filled: "filled",
   playerUpdate: "playerUpdate",
+  gameStart: "gameStart",
   gameStarted: "gameStarted",
-  leaderChosen: "leaderChosen",
+  painterChosen: "painterChosen",
   gameEnded: "gameEnded"
 };
 

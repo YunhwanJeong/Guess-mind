@@ -10,6 +10,19 @@ const socketController = (socket, io) => {
   const broadcast = (event, data) => socket.broadcast.emit(event, data);
   const superBroadcast = (event, data) => io.emit(event, data);
   const updatePlayer = () => superBroadcast(events.playerUpdate, { sockets });
+  const updateScore = id => {
+    sockets = sockets.map(aSocket => {
+      if (aSocket.id === id) {
+        aSocket.points += 10;
+      }
+      return aSocket;
+    });
+  };
+  const resetScore = () =>
+    sockets.map(aSocket => {
+      aSocket.points = 0;
+      return aSocket;
+    });
   const choosePainter = () =>
     sockets[Math.floor(Math.random() * sockets.length)];
   const startGame = () => {
@@ -18,10 +31,11 @@ const socketController = (socket, io) => {
     }
     painter = choosePainter();
     word = chooseWord();
+    superBroadcast(events.gameStart);
     setTimeout(() => {
       superBroadcast(events.gameStarted);
-      io.to(painter.id).emit(events.leaderChosen, { word });
-    }, 2000);
+      io.to(painter.id).emit(events.painterChosen, { word });
+    }, 5000);
   };
   const endGame = () => {
     inProgress = false;
@@ -32,26 +46,39 @@ const socketController = (socket, io) => {
     socket.nickname = nickname;
     sockets.push({ id: socket.id, points: 0, nickname: nickname });
     broadcast(events.newUser, { nickname });
-    updatePlayer();
-    if (sockets.length === 2) {
+    if (sockets.length >= 2) {
+      resetScore();
       startGame();
     }
+    updatePlayer();
   });
   socket.on(events.disconnect, () => {
     sockets = sockets.filter(aSocket => aSocket.id !== socket.id);
     broadcast(events.disconnected, { nickname: socket.nickname });
     if (sockets.length === 1) {
+      resetScore();
       endGame();
     } else if (painter) {
       if (socket.id === painter.id) {
         endGame();
+        startGame();
       }
     }
     updatePlayer();
   });
-  socket.on(events.sendMsg, ({ message }) =>
-    broadcast(events.receiveMsg, { message, nickname: socket.nickname })
-  );
+  socket.on(events.sendMsg, ({ message }) => {
+    broadcast(events.receiveMsg, { message, nickname: socket.nickname });
+    if (message === word) {
+      superBroadcast(events.receiveMsg, {
+        message: `Winner is ${socket.nickname}! The answer was ${word}`,
+        nickname: "Bot"
+      });
+      updateScore(socket.id);
+      updatePlayer();
+      endGame();
+      startGame();
+    }
+  });
   socket.on(events.beginPath, ({ x, y }) =>
     broadcast(events.beganPath, { x, y })
   );

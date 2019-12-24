@@ -5,9 +5,13 @@ const msgForm = document.getElementById("jsMsgForm");
 
 const printMsg = (message, nickname) => {
   const li = document.createElement("li");
-  li.innerHTML = `<span class="author ${nickname ? "others" : "self"}">${
-    nickname ? nickname : "You"
-  }:</span> ${message}`;
+  if (nickname === "Bot") {
+    li.innerHTML = `<span class="author bot">${nickname}:</span> ${message}`;
+  } else {
+    li.innerHTML = `<span class="author ${nickname ? "others" : "self"}">${
+      nickname ? nickname : "You"
+    }:</span> ${message}`;
+  }
   messages.appendChild(li);
 };
 
@@ -27,3 +31,11 @@ export const handleReceiveMsg = ({ message, nickname }) => {
 if (msgForm) {
   msgForm.addEventListener("submit", handleSubmitMsg);
 }
+
+export const disableMsg = () => {
+  msgForm.style.display = "none";
+};
+
+export const enableMsg = () => {
+  msgForm.style.display = "flex";
+};
