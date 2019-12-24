@@ -5,6 +5,7 @@ let sockets = [];
 let inProgress = false;
 let word = null;
 let painter = null;
+let timeout = null;
 
 const socketController = (socket, io) => {
   const broadcast = (event, data) => socket.broadcast.emit(event, data);
@@ -26,31 +27,36 @@ const socketController = (socket, io) => {
   const choosePainter = () =>
     sockets[Math.floor(Math.random() * sockets.length)];
   const startGame = () => {
-    if (inProgress === false) {
-      inProgress = true;
+    if (sockets.length > 1) {
+      if (inProgress === false) {
+        inProgress = true;
+      }
+      painter = choosePainter();
+      word = chooseWord();
+      superBroadcast(events.gameStart);
+      setTimeout(() => {
+        superBroadcast(events.gameStarted);
+        io.to(painter.id).emit(events.painterChosen, { word });
+        timeout = setTimeout(endGame, 30000);
+      }, 5000);
     }
-    painter = choosePainter();
-    word = chooseWord();
-    superBroadcast(events.gameStart);
-    setTimeout(() => {
-      superBroadcast(events.gameStarted);
-      io.to(painter.id).emit(events.painterChosen, { word });
-    }, 5000);
   };
   const endGame = () => {
     inProgress = false;
     superBroadcast(events.gameEnded);
+    if (timeout !== null) {
+      clearTimeout(timeout);
+    }
+    setTimeout(startGame, 3000);
   };
 
   socket.on(events.setNickname, ({ nickname }) => {
     socket.nickname = nickname;
     sockets.push({ id: socket.id, points: 0, nickname: nickname });
     broadcast(events.newUser, { nickname });
-    if (sockets.length >= 2) {
-      resetScore();
-      startGame();
-    }
+    resetScore();
     updatePlayer();
+    startGame();
   });
   socket.on(events.disconnect, () => {
     sockets = sockets.filter(aSocket => aSocket.id !== socket.id);
@@ -61,7 +67,6 @@ const socketController = (socket, io) => {
     } else if (painter) {
       if (socket.id === painter.id) {
         endGame();
-        startGame();
       }
     }
     updatePlayer();
@@ -76,7 +81,6 @@ const socketController = (socket, io) => {
       updateScore(socket.id);
       updatePlayer();
       endGame();
-      startGame();
     }
   });
   socket.on(events.beginPath, ({ x, y }) =>
