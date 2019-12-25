@@ -8,7 +8,11 @@ import {
 import { disableMsg, enableMsg } from "./chat";
 
 const scoreBoard = document.getElementById("jsScoreBoard");
-const gameContext = document.getElementById("jsGameContext");
+const notifs = document.getElementById("jsNotifs");
+const countdown = document.getElementById("jsCountdown");
+
+let totalSecond = null;
+let interval = null;
 
 const updateScoreboard = players => {
   scoreBoard.innerText = "";
@@ -21,34 +25,48 @@ const updateScoreboard = players => {
 
 export const handlePlayerUpdate = ({ sockets }) => updateScoreboard(sockets);
 
-const updateText = (text = null) => {
+const updateNotifs = (text = null) => {
   if (text !== null) {
-    gameContext.innerText = "";
-    gameContext.innerText = text;
+    notifs.innerText = "";
+    notifs.innerText = text;
   } else {
-    gameContext.innerText = "";
+    notifs.innerText = "";
   }
 };
 
 export const handleGameStart = () => {
-  updateText("Game will start soon");
+  updateNotifs("Game will start soon");
 };
 
-export const handleGameStarted = () => {
-  updateText();
+export const handleGameStarted = ({ paintingTime }) => {
+  updateNotifs();
+  totalSecond = paintingTime;
+  countdown.innerText = `${totalSecond} seconds left`;
+  interval = setInterval(showRemainingTime, 1000);
+};
+
+const showRemainingTime = () => {
+  totalSecond = totalSecond - 1;
+  countdown.innerText = `${totalSecond} seconds left`;
 };
 
 export const handlePainterChosen = ({ word }) => {
   enableCanvas();
   showControls();
-  gameContext.innerText = `You are the painter. The word is: ${word}`;
+  notifs.innerText = `You are the painter. The word is: ${word}`;
   disableMsg();
 };
 
 export const handleGameEnded = () => {
-  updateText("Game Ended");
+  updateNotifs("Game Ended");
   disableCanvas();
   hideControls();
   resetCanvas();
   enableMsg();
+  clearCountdown();
+};
+
+const clearCountdown = () => {
+  clearInterval(interval);
+  countdown.innerText = "";
 };

@@ -4,7 +4,12 @@
   align-items: center;
   .gameContext {
     width: 100%;
-    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .gameContext__notifs {
+      margin-bottom: 10px;
+    }
   }
   canvas {
     margin-bottom: 20px;
