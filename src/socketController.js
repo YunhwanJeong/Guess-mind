@@ -45,14 +45,12 @@ const socketController = (socket, io) => {
     }
   };
   const endGame = () => {
-    if (inProgress === true) {
-      inProgress = false;
-      superBroadcast(events.gameEnded);
-      if (timeout !== null) {
-        clearTimeout(timeout);
-      }
-      setTimeout(startGame, 3000);
+    inProgress = false;
+    superBroadcast(events.gameEnded);
+    if (timeout !== null) {
+      clearTimeout(timeout);
     }
+    setTimeout(startGame, 3000);
   };
 
   socket.on(events.setNickname, ({ nickname }) => {

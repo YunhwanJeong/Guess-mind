@@ -3,7 +3,6 @@ import { initSockets } from "./socket";
 const body = document.querySelector("body");
 const loginBox = document.getElementById("jsLoginBox");
 const loginForm = loginBox.querySelector("form");
-const gameContainer = document.getElementById("jsGameContainer");
 
 const LOGGED_IN = "loggedIn";
 const LOGGED_OUT = "loggedOut";
