@@ -18,7 +18,7 @@
     "copyAll": "cp -R src/static build && cp -R src/views build",
     "build": "npm run build:server && npm run build:assets && npm run copyAll",
     "prebuild": "rm -rf build",
-    "start": "NPM_CONFIG_PRODUCTION=true node build/server.js",
+    "start": "NPM_CONFIG_PRODUCTION=true PORT=4000 node build/server.js",
     "prestart": "npm run build"
   },
   "repository": {
