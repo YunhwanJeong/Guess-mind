@@ -4,6 +4,9 @@ import socketIO from "socket.io";
 import logger from "morgan";
 import socketController from "./socketController";
 import events from "./events";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
